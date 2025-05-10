@@ -1,21 +1,22 @@
-# Example script using llama models to summarize text
-from transformers import LlamaTokenizer, LlamaForCausalLM
+import ollama
 
-# I need to get the model https://huggingface.co/meta-llama/Llama-2-7b-chat-hf
+model = 'llama3.1'
 
-def main():
-    tokenizer = LlamaTokenizer.from_pretrained("meta-llama/Llama-2-7b-chat-hf")
-    model = LlamaForCausalLM.from_pretrained("meta-llama/Llama-2-7b-chat-hf")
+prompt = """
+What color is the sky?
+"""
 
-    input_text = "Summary of my installation blah blah blah. " * 100  # Example long text
-    # Ensure the input text is long enough to demonstrate truncation
-    input_ids = tokenizer.encode(input_text, return_tensors="pt", max_length=2048, truncation=True)
+stream = ollama.chat(
+    model = model,
+    messages = [{
+        'role':'user',
+        'content': prompt
+    }],
+    stream = True
+)
 
-    output = model.generate(input_ids, max_length=512, num_return_sequences=1)
-    summary = tokenizer.decode(output[0], skip_special_tokens=True)
-    print("Summary:", summary)
+print(stream)
 
-
-if __name__ == "__main__":
-    main()
-    
+for chunk in stream:
+    print(chunk['message']['content'], end='')
+print()
