@@ -4,22 +4,9 @@ model = 'llama3.1'
 
 
 
-class Chat:
+class LlamaChat:
     def __init__(self, model: str):
         self.model = model
-
-    def ask(self, prompt: str):
-        stream = ollama.chat(
-            model=self.model,
-            messages=[{
-                'role': 'user',
-                'content': prompt
-            }],
-            stream=True
-        )
-        for chunk in stream:
-            print(chunk['message']['content'], end='')
-        print()
 
     def analyze(self, prompt: str):
         stream = ollama.chat(
