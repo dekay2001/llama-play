@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
 
-class ConfigInerface(ABC):
+class ConfigInterface(ABC):
     @abstractmethod
     def get(self, key: str, default=None):
         pass
