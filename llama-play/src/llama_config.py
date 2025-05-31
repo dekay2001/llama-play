@@ -9,11 +9,11 @@ class ConfigInterface(ABC):
 
 DEFAULT_CONFIG = {
     'log_level': 'INFO',
-    'stream': False,
+    'stream': True,
     'model': 'llama3.1',
 }
 
-class _DictConfig(ConfigInerface):
+class _DictConfig(ConfigInterface):
     def __init__(self, config: dict):
         self._config = config
 
