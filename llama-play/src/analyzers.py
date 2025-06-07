@@ -3,15 +3,23 @@ import ollama
 model = 'llama3.1'
 
 
-def create(model: str, stream: bool = False):
+def create(model: str, stream: bool = False, config=None):
+    writer = _create_file_writer(config.get('file_path'))
     if stream:
-        return LlamaChatStream(model)
-    return LlamaChat(model)
+        return LlamaChatStream(model, writer)
+    return LlamaChat(model, writer)
+
+
+def _create_file_writer(file_path: str):
+    if file_path:
+        return _FileWriter(file_path)
+    return _TerminalWriter()
 
 
 class LlamaChatStream:
-    def __init__(self, model: str):
+    def __init__(self, model: str, writer):
         self.model = model
+        self._writer = writer
 
     def analyze(self, prompt: str):
         stream = ollama.chat(
@@ -22,14 +30,21 @@ class LlamaChatStream:
             }],
             stream=True
         )
+        self._writer.write(self._sentence(stream))
+        
+
+    def _sentence(self, stream):
+        sentence = ''
         for chunk in stream:
-            print(chunk['message']['content'], end='')
-        print()
+            sentence += chunk['message']['content']
+        return sentence
+        
 
 
 class LlamaChat:
-    def __init__(self, model: str):
+    def __init__(self, model: str, writer=None):
         self.model = model
+        self._writer = writer
 
     def analyze(self, prompt: str):
         response = ollama.chat(
@@ -40,14 +55,18 @@ class LlamaChat:
             }],
             stream=False
         )
-        print(response['message']['content'])
+        self._writer.write(response['message']['content'])
+
+class _FileWriter:
+    def __init__(self, file_path: str):
+        self.file_path = file_path
+
+    def write(self, content: str):
+        with open(self.file_path, 'a') as file:
+            file.write(content)
 
 
-if __name__ == '__main__':
-    prompt = """
-    Tell me a dad joke
-    """
-    chat = Chat(model)
-    chat.ask(prompt)
-    ollama.list()
 
+class _TerminalWriter:
+    def write(self, content: str):
+        print(content)
