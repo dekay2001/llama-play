@@ -1,0 +1,5 @@
+package = "llama-play"
+version = "0.1.0"
+description = "A Python package for playing with Llama models."
+author = "Your Name"
+license = "NA"
