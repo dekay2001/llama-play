@@ -10,3 +10,12 @@ dependencies = [
     "torch>=2.6.0",
     "transformers>=4.51.3",
 ]
+
+[dependency-groups]
+dev = [
+    "assertpy>=1.1",
+    "bolt-ta>=0.4.1",
+    "conttest>=0.0.8",
+    "pytest>=8.4.0",
+    "pytest-cov>=6.1.1",
+]
