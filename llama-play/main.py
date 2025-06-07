@@ -9,7 +9,7 @@ class LoggingAppTestHarness:
         self.config = configuration.generate_config()
         self.stream = self.config.get('stream')
         self.model = self.config.get('model')
-        self.log_analyzer = analyzer.create(self.model, self.stream)
+        self.log_analyzer = analyzer.create(self.model, self.stream, self.config)
         self.logger = logging.configure(self.config, self.log_analyzer)
         self.logger.info("LoggingAppTestHarness initialized successfully.")
 
