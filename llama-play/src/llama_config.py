@@ -8,12 +8,13 @@ class ConfigInterface(ABC):
     def get(self, key: str, default=None):
         pass
 
-_ANALYSIS_LOG_FILE = os.path.join(os.getcwd(), 'analysis.log')
+_ANALYSIS_LOG_FILE = os.path.join(os.getcwd(), 'analysis-thor.log')
 
 DEFAULT_CONFIG = {
     'log_level': 'INFO',
     'stream': True,
-    'model': 'llama3.1',
+    #'model': 'llama3.1',
+    'model': 'Thor',
     'file_path': _ANALYSIS_LOG_FILE,
 }
 

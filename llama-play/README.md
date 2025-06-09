@@ -85,3 +85,12 @@ To run with uv use
 ```
 uv run src\example.py
 ```
+
+
+## Custom Model From Model File to Answer as Thor
+
+```
+ollama create thor -f ./Modelfile
+```
+
+- Now you can run the command `ollama run Thor` and use `Thor` in the application configuration.
