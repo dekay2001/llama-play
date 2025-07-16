@@ -1,3 +1,4 @@
+import datetime as dt
 import os
 
 from abc import ABC, abstractmethod
@@ -8,13 +9,13 @@ class ConfigInterface(ABC):
     def get(self, key: str, default=None):
         pass
 
-_ANALYSIS_LOG_FILE = os.path.join(os.getcwd(), 'analysis-thor.log')
+# format the log file path with time stamp and model type
+_ANALYSIS_LOG_FILE = os.path.join(os.getcwd(), 'logs', f'{dt.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")}_analysis.log')
 
 DEFAULT_CONFIG = {
     'log_level': 'INFO',
     'stream': True,
-    #'model': 'llama3.1',
-    'model': 'Thor',
+    'model': 'phi3:3.8b',
     'file_path': _ANALYSIS_LOG_FILE,
 }
 

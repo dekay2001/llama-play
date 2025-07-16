@@ -30,15 +30,21 @@ class LlamaChatStream:
             }],
             stream=True
         )
+        self._writer.write(_LOG_BREAK)
+        self._writer.write(f"Analyzing with model: {self.model}\n")
+        self._writer.write(_LOG_BREAK)
+        self._writer.write(f"Prompt:\n{prompt}\n\n")
+        self._writer.write("Analysis Output:\n")
         self._writer.write(self._sentence(stream))
-        
+
 
     def _sentence(self, stream):
         sentence = ''
         for chunk in stream:
             sentence += chunk['message']['content']
         return sentence
-        
+
+_LOG_BREAK = '-' * 50 + '\n'
 
 
 class LlamaChat:
